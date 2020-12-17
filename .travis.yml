@@ -144,16 +144,34 @@ matrix:
         - cd ../..
 
 # bug hunting
-    - name: "bug hunting"
+    - name: "bug hunting unit tests"
       compiler: gcc
       script:
         - make clean
-        - make USE_Z3=yes -j2 all
+        - make USE_Z3=yes -j2 all -s
         - ./testrunner TestExprEngine
-        # FIXME: this is slowish
-        #- python3 test/bug-hunting/cve.py
-        #- git clone https://github.com/regehr/itc-benchmarks.git ~/itc
-        #- python3 test/bug-hunting/itc.py
+        - ./testrunner TestBughuntingChecks
+
+    - name: "bug hunting self check"
+      compiler: gcc
+      script:
+        - make clean
+        - make USE_Z3=yes -j2 -s
+        - ./cppcheck -j2 --bug-hunting -Iexternals/picojson -Iexternals/simplecpp -Iexternals/tinyxml2 lib
+
+    - name: "bug hunting itc"
+      compiler: gcc
+      script:
+        - make clean
+        - make USE_Z3=yes -j2 -s
+        - git clone https://github.com/regehr/itc-benchmarks.git ~/itc
+        - python3 test/bug-hunting/itc.py
+
+    - name: "bug hunting juliet"
+      compiler: gcc
+      script:
+        - make clean
+        - make USE_Z3=yes -j2 -s
         - mkdir ~/juliet
         - curl https://samate.nist.gov/SARD/testsuites/juliet/Juliet_Test_Suite_v1.3_for_C_Cpp.zip -o ~/juliet/juliet.zip
         - cd ~/juliet
