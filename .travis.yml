@@ -148,7 +148,7 @@ matrix:
       compiler: gcc
       script:
         - make clean
-        - make USE_Z3=yes -j2 all -s
+        - make USE_Z3=yes -j2 all
         - ./testrunner TestExprEngine
         - ./testrunner TestBughuntingChecks
 
@@ -156,14 +156,14 @@ matrix:
       compiler: gcc
       script:
         - make clean
-        - make USE_Z3=yes -j2 -s
+        - make USE_Z3=yes -j2
         - ./cppcheck -j2 --bug-hunting --bug-hunting-check-function-max-time=10 -Iexternals/picojson -Iexternals/simplecpp -Iexternals/tinyxml2 lib
 
     - name: "bug hunting itc"
       compiler: gcc
       script:
         - make clean
-        - make USE_Z3=yes -j2 -s
+        - make USE_Z3=yes -j2
         - git clone https://github.com/regehr/itc-benchmarks.git ~/itc
         - python3 test/bug-hunting/itc.py
 
@@ -171,7 +171,7 @@ matrix:
       compiler: gcc
       script:
         - make clean
-        - make USE_Z3=yes -j2 -s
+        - make USE_Z3=yes -j2
         - mkdir ~/juliet
         - curl https://samate.nist.gov/SARD/testsuites/juliet/Juliet_Test_Suite_v1.3_for_C_Cpp.zip -o ~/juliet/juliet.zip
         - cd ~/juliet
