@@ -157,7 +157,7 @@ matrix:
       script:
         - make clean
         - make USE_Z3=yes -j2 -s
-        - ./cppcheck -j2 --bug-hunting -Iexternals/picojson -Iexternals/simplecpp -Iexternals/tinyxml2 lib
+        - ./cppcheck -j2 --bug-hunting --bug-hunting-check-function-max-time=10 -Iexternals/picojson -Iexternals/simplecpp -Iexternals/tinyxml2 lib
 
     - name: "bug hunting itc"
       compiler: gcc
